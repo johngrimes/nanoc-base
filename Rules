@@ -1,0 +1,51 @@
+#!/usr/bin/env ruby
+
+require 'compass'
+Compass.configuration.parse 'compass_config.rb'
+
+# A few helpful tips about the Rules file:
+#
+# * The order of rules is important: for each item, only the first matching
+#   rule is applied.
+#
+# * Item identifiers start and end with a slash (e.g. “/about/” for the file
+#   “content/about.html”). To select all children, grandchildren, … of an
+#   item, use the pattern “/about/*/”; “/about/*” will also select the parent,
+#   because “*” matches zero or more characters.
+
+compile '/style/*/' do
+  case item[:extension]
+    when 'sass'
+      filter :sass, Compass.sass_engine_options
+    when 'css'
+      # Nothing
+  end
+end
+
+compile '/script/*' do
+  case item[:extension]
+    when 'coffee'
+      filter :coffee
+    when 'js'
+      # Nothing
+  end
+end
+
+compile '*' do
+  filter :haml
+  layout 'default'
+end
+
+route '/style/*/' do
+  item.identifier.chop + '.css'
+end
+
+route '/script/*/' do
+  item.identifier.chop + '.js'
+end
+
+route '*' do
+  item.identifier + 'index.html'
+end
+
+layout '*', :haml
