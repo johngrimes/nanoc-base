@@ -25,7 +25,7 @@ compile '/style/*/' do
   end
 end
 
-compile '/script/*' do
+compile '/script/*/' do
   case item[:extension]
     when 'coffee'
       filter :coffee
@@ -35,8 +35,14 @@ compile '/script/*' do
 end
 
 compile '*' do
-  filter :haml, haml_options
-  layout 'default'
+  if item[:extension] == 'haml' 
+    filter :haml, haml_options
+    layout 'default'
+  end
+end
+
+route '/images/*/' do
+  item.identifier.chop + '.' + item[:extension]
 end
 
 route '/style/*/' do
