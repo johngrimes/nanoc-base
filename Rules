@@ -3,6 +3,9 @@
 require 'compass'
 Compass.configuration.parse 'compass_config.rb'
 
+sass_options = Compass.sass_engine_options
+haml_options = { :format => :html5 }
+
 # A few helpful tips about the Rules file:
 #
 # * The order of rules is important: for each item, only the first matching
@@ -16,7 +19,7 @@ Compass.configuration.parse 'compass_config.rb'
 compile '/style/*/' do
   case item[:extension]
     when 'sass'
-      filter :sass, Compass.sass_engine_options
+      filter :sass, sass_options
     when 'css'
       # Nothing
   end
@@ -32,7 +35,7 @@ compile '/script/*' do
 end
 
 compile '*' do
-  filter :haml
+  filter :haml, haml_options
   layout 'default'
 end
 
@@ -48,4 +51,4 @@ route '*' do
   item.identifier + 'index.html'
 end
 
-layout '*', :haml
+layout '*', :haml, haml_options
