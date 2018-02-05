@@ -1,5 +1,7 @@
 # Nanoc Base Project
 
+IMPORTANT NOTE: This repository is no longer actively maintained.
+
 Ready to roll with:
 
 * HAML
